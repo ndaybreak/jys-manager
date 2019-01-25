@@ -30,6 +30,15 @@
       <el-table-column align="center" :label="$t('table.recharge_from_address')" width="150" prop="from_address"></el-table-column>
       <el-table-column align="center" :label="$t('table.recharge_address')" width="150" prop="to_address"></el-table-column>
       <el-table-column align="center" :label="$t('table.coin')" width="80" prop="coin_code"></el-table-column>
+      <el-table-column align="center" label="Certificate" width="150">
+        <template slot-scope="scope">
+          <span v-if="scope.row.certificate">
+            <img v-for="url in scope.row.certificate.split(',')" :src="url" @click="showicon(url)" alt="" style="height: 30px;">
+          </span>
+          <!--<img v-if="scope.row.certificate" @click="showicon(scope.row)" :src="scope.row.certificate.split(',')[0]" style="height: 50px;"/>-->
+          <span v-else>_</span>
+        </template>
+      </el-table-column>
       <el-table-column align="center" :label="$t('table.quantity')" width="150" prop="quantity"></el-table-column>
       <el-table-column align="center" :label="$t('table.tx_hash')" width="150" prop="tx_hash"></el-table-column>
       <el-table-column align="center" :label="$t('table.block')" width="150" prop="block"></el-table-column>
@@ -39,9 +48,10 @@
           <span>{{scope.row.time | parseTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" align="center" :label="$t('table.actions')" width="150" class-name="small-padding fixed-width">
+      <el-table-column fixed="right" align="center" :label="$t('table.actions')" width="250" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="handleConfirmation(scope.row)" style="width: 95px;">{{$t('table.rechargeConfirmation')}}</el-button>
+          <el-button v-if="scope.row.status === 0" type="primary" size="mini" @click="handleConfirmation(scope.row)" style="width: 95px;">{{$t('table.success')}}</el-button>
+          <el-button v-if="scope.row.status === 0" type="danger" size="mini" @click="handleFail(scope.row)" style="width: 65px;">{{$t('table.fail')}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -75,17 +85,31 @@
       </div>
     </el-dialog>
 
+    <!--图片查看-->
+    <transition name="slide-fade" class="fadeView">
+      <div v-if="showImg">
+        <image-view :imgArr="imgArr"
+                    :showImageView="true"
+                    :imageIndex="0"
+                    v-on:hideImage="hideImageView"></image-view>
+      </div>
+    </transition>
+
   </div>
 </template>
 
 <script>
   import { getCoinList } from '@/api/customer'
-  import { rechargeFetchAll, rechargeConfirmation } from '@/api/audit'
+  import { rechargeFetchAll, rechargeConfirmation, vcRechargeFail } from '@/api/audit'
   import waves from '@/directive/waves' // 水波纹指令
   import { parseTime, intl } from '@/utils'
+  import imageView from 'vue-imageview'
 
   export default {
     name: 'otcDeal',
+    components: {
+      'image-view': imageView
+    },
     directives: {
       waves
     },
@@ -129,8 +153,11 @@
           from_address: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
           tx_hash: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
           block: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
-          quantity: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }]
-        }
+          quantity: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
+          info: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }]
+        },
+        imgArr: [],
+        showImg: false
       }
     },
     created() {
@@ -140,6 +167,14 @@
       this.getList()
     },
     methods: {
+      showicon(url) {
+        // this.imgArr = [row.certificate.split(',')]
+        this.imgArr = [url]
+        this.showImg = true
+      },
+      hideImageView() {
+        this.showImg = false
+      },
       getList() {
         this.listLoading = true
         const para = Object.assign({}, this.query)
@@ -173,6 +208,37 @@
         this.dialogFormVisible = true
         this.$nextTick(() => {
           this.$refs['dataForm'].clearValidate()
+        })
+      },
+      handleFail(row) {
+        this.$prompt(intl('tip.audit_fail'), this.$t('tip.warning'), {
+          confirmButtonText: this.$t('tip.confirm'),
+          cancelButtonText: this.$t('tip.cancel'),
+          inputType: 'textarea',
+          inputPlaceholder: intl('table.remark'),
+          beforeClose: (action, instance, done) => {
+            if (action === 'confirm') {
+              if (!instance.inputValue) {
+                this.$message.error(intl('tip.reject_reason'))
+                return
+              }
+              done()
+            } else {
+              done()
+            }
+          }
+        }).then(({ value }) => {
+          const para = {
+            id: row.id,
+            info: value
+          }
+          vcRechargeFail(para).then(res => {
+            this.$message({
+              type: 'success',
+              message: this.$t('tip.success')
+            })
+            this.getList()
+          })
         })
       },
       confirm() {

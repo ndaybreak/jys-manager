@@ -23,7 +23,8 @@
       <!--<el-table-column align="center" label="UID" width="150" prop="auth_application_id"></el-table-column>-->
       <el-table-column align="center" :label="$t('table.email')" width="150" prop="email"></el-table-column>
       <el-table-column align="center" :label="$t('table.area_code')" width="100" prop="area_code"></el-table-column>
-      <el-table-column align="center" :label="$t('table.mobile_number')" width="150" prop="mobile_number"></el-table-column>
+      <!--<el-table-column align="center" :label="$t('table.mobile_number')" width="150" prop="mobile_number"></el-table-column>-->
+      <el-table-column align="center" :label="$t('table.mobile_number')" width="150" prop="mobile_telephone"></el-table-column>
       <el-table-column align="center" :label="$t('table.authMaterials')" width="150">
         <template slot-scope="scope">
           <el-button round @click="checkAuthMaterials(scope.row)">{{$t('table.check')}}</el-button>
@@ -59,25 +60,47 @@
       <el-row>
         <el-col :span="12">
           <h3>{{$t('table.baseInfo')}}</h3>
-          <div class="dialog-item">{{$t('table.full_name')}}:{{tempInfo.full_name}}</div>
-          <!--<div class="dialog-item">{{$t('table.birthday')}}:{{tempInfo.birthday | parseTime('{y}-{m}-{d}')}}</div>-->
-          <div class="dialog-item">{{$t('table.birthday')}}:{{tempInfo.birthday}}</div>
-          <div class="dialog-item">{{$t('table.nationality')}}:{{tempInfo.country_name_english}}</div>
-          <div class="dialog-item">{{$t('table.birthPlace')}}:{{tempInfo.place_birth}}</div>
-          <!--<div class="dialog-item">{{$t('table.presentAddr')}}:{{tempInfo.address}}</div>-->
-          <div class="dialog-item">{{$t('table.premanentAddr')}}:{{tempInfo.premanent_address}}</div>
-          <div class="dialog-item">Education:{{tempInfo.education | educationFilter}}</div>
-          <div class="dialog-item">Mobile Telephone No.:({{tempInfo.area_code}}){{tempInfo.mobile_telephone}}</div>
-          <!--<div class="dialog-item">{{$t('table.postal_code')}}:{{tempInfo.postal_code}}</div>-->
+          <div class="dialog-item">Company Name: {{tempInfo.name}}</div>
+          <div class="dialog-item">Nature of Business: {{tempInfo.nature_work}}</div>
+          <div class="dialog-item">Contact Person: {{tempInfo.liaison_person}}</div>
+          <div class="dialog-item">Registered Address: {{tempInfo.registered_address}}</div>
+          <div class="dialog-item">Date of Incorporation: {{tempInfo.company_registration_date | parseTime}}</div>
+          <div class="dialog-item">Certificate Incorporation No.: {{tempInfo.company_registration_number}}</div>
+          <div class="dialog-item">Email Address: {{tempInfo.contact_address}}</div>
+          <div class="dialog-item">Contact No.: ({{tempInfo.contact_area_code}}) {{tempInfo.contact_number}}</div>
+          <div class="dialog-item">{{$t('table.heading_code')}}: {{tempInfo.heading_code}}</div>
         </el-col>
         <el-col :span="12">
-          <h3>{{$t('table.financeInfo')}}</h3>
-          <div class="dialog-item">{{$t('table.fundsSource')}}:{{tempInfo.source_funds}}</div>
-          <div class="dialog-item">{{$t('table.workNature')}}:{{tempInfo.nature_work | natureWorkFilter}}</div>
-          <div class="dialog-item">{{$t('table.companyName')}}:{{tempInfo.organization_name}}</div>
-          <div class="dialog-item">Office Telephone No.:({{tempInfo.office_area_code}}) {{tempInfo.office_telephone}}</div>
-          <div class="dialog-item">Office Fax No.:{{tempInfo.office_fax}}</div>
-          <div class="dialog-item">{{$t('table.heading_code')}}:{{tempInfo.heading_code}}</div>
+          <h3>Information of the person authorized to give instruction on Customer’s behalf</h3>
+          <div class="dialog-item">Name: {{tempInfo.authorized_name}}</div>
+          <div class="dialog-item">Position: {{tempInfo.position}}</div>
+          <div class="dialog-item">Phone/Mobile No.: {{tempInfo.mobile}}</div>
+          <div class="dialog-item">Passport/I.D. no.: {{tempInfo.passport}}</div>
+          <h3>Type of Corporation</h3>
+          <div class="dialog-item">Financial institution: {{tempInfo.code | corporationTypeFilter}}</div>
+          <div class="dialog-item">Bank: {{tempInfo.bank | bankFilter}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="24">
+          <h3>Description of Family Members in Important Departments</h3>
+          <div class="dialog-item" style="word-break: break-word;">{{tempInfo.explainInfo}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="24">
+          <h3>Information on directors and all shareholders holding more than 10% shares</h3>
+          <el-table :data="tempInfo.parDirectorList" border fit highlight-current-row>
+            <el-table-column align="center" label="Name" width="125" prop="name"></el-table-column>
+            <el-table-column align="center" label="Residential Address" width="220" prop="residential_address"></el-table-column>
+            <el-table-column align="center" label="Place of incorporation" width="220" prop="incorpration"></el-table-column>
+            <el-table-column align="center" label="Director/Shareholder" width="220" prop="director_shareholder">
+              <template slot-scope="scope">
+                <span>{{scope.row.director_shareholder | directorFilter}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="Shareholding (%)" width="150" prop="shareholding"></el-table-column>
+          </el-table>
         </el-col>
       </el-row>
       <el-row>
@@ -104,13 +127,15 @@
 </template>
 
 <script>
-  import { customerFetchAll, customerAudit, customerInfoCheck } from '@/api/audit'
+  import { companyFetchAll, companyAudit, companyInfoCheck } from '@/api/audit'
   import waves from '@/directive/waves' // 水波纹指令
   import PictureView from 'vue-simple-picture-preview'
   import { intl, isZh, deepClone } from '@/utils'
 
   function getFileList(str) {
-    str = str || ''
+    if (!str) {
+      return [[], []]
+    }
     const list = str.split(',')
     const r1 = []
     const r2 = []
@@ -126,7 +151,7 @@
   }
 
   export default {
-    name: 'customerAudit',
+    name: 'companyAudit',
     components: {
       PictureView
     },
@@ -140,22 +165,35 @@
         }
         return statusMap[status]
       },
-      natureWorkFilter(status) {
+      directorFilter(status) {
         const statusMap = {
-          1: 'Employed',
-          2: 'Self-employed',
-          3: 'Student',
-          4: 'Retired',
-          5: 'Others'
+          1: 'Director',
+          2: 'Shareholder'
         }
         return statusMap[status]
       },
-      educationFilter(status) {
+      corporationTypeFilter(status) {
         const statusMap = {
-          1: 'Primary or below',
-          2: 'Secondary',
-          3: 'University',
-          4: 'Post Graduate'
+          1: 'Financial Institution',
+          2: 'Active NFE',
+          3: 'Passive NFE'
+        }
+        return statusMap[status]
+      },
+      bankFilter(status) {
+        const statusMap = {
+          1: 'Bank',
+          2: 'Asset/ Fund Management',
+          3: 'Operator Stock Broking ',
+          4: 'Fund',
+          5: 'Insurance Company',
+          6: 'Financial Market',
+          7: 'Nominees/ Custodian',
+          8: 'Listed on Exchange',
+          9: 'Government firm / Agency',
+          10: 'Other active NFE',
+          11: 'Financial Institution and located in non-participating jurisdiction',
+          12: 'NFE that is not an active NFE'
         }
         return statusMap[status]
       }
@@ -207,13 +245,13 @@
         // this.tempInfo.picList = ['https://hkstox.io/files/coin/e73c82e2-3dd7-4360-8eed-4bd46834053d_BNB.png', 'https://hkstox.io/files/coin/e73c82e2-3dd7-4360-8eed-4bd46834053d_BNB.png']
         // this.tempInfo.docList = ['https://hkstox.io/files/account/holdCard/03abe1bb-5d5e-4cb7-a92a-9391ab1ec7e6_test.pdf', 'https://hkstox.io/files/account/holdCard/03abe1bb-5d5e-4cb7-a92a-9391ab1ec7e6_test.pdf']
         this.tempInfo.icons = []
-        customerInfoCheck({ id: row.auth_application_id }).then(result => {
+        companyInfoCheck({ id: row.id }).then(result => {
           // loading.close()
-          const obj = result.data[0] || {}
+          const obj = result.data || {}
           Object.assign(this.tempInfo, obj)
           // this.tempInfo.icons = [obj.credential_back_pic_addr, obj.credential_front_pic_addr, obj.credential_sign_pic_addr]
-          obj.credential_back_pic_addr && this.tempInfo.icons.push(obj.credential_back_pic_addr)
-          obj.credential_front_pic_addr && this.tempInfo.icons.push(obj.credential_front_pic_addr)
+          obj.credential_back_addr && this.tempInfo.icons.push(obj.credential_back_addr)
+          obj.credential_front_addr && this.tempInfo.icons.push(obj.credential_front_addr)
           // obj.credential_sign_pic_addr && this.tempInfo.icons.push(obj.credential_sign_pic_addr)
           // this.tempInfo.icons = ['http://img3.redocn.com/20120410/Redocn_2012041007514574.jpg', 'http://img.sccnn.com/bimg/338/24556.jpg']
           this.dialogFormVisible = true
@@ -243,12 +281,12 @@
           }
         }).then(({ value }) => {
           const para = {
-            authApplicationId: row.auth_application_id,
+            id: row.id,
             status: type === 'pass' ? 2 : 1,
             approveResultMemo: value
           }
           console.log(para)
-          customerAudit(para).then(res => {
+          companyAudit(para).then(res => {
             this.$message({
               type: 'success',
               message: this.$t('tip.success')
@@ -266,7 +304,7 @@
         if (para.endTime) {
           para.endTime = para.endTime.getTime() / 1000
         }
-        customerFetchAll(para).then(result => {
+        companyFetchAll(para).then(result => {
           this.listLoading = false
           this.list = result.data
           this.total = result.pageInfo.totalCount

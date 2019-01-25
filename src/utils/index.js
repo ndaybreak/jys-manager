@@ -302,7 +302,11 @@ export function kebabCaseData2Camel(obj) {
 }
 
 // 过滤更新后的值
-export function getUpdatedObj(temp, oldObj) {
+export function getUpdatedObj(temp, oldObj, notFilter) {
+  if (notFilter) {
+    return temp
+  }
+  // return temp
   const newObj = { id: temp.id }
   Object.keys(temp).filter(attr => {
     return attr !== 'id'
@@ -345,5 +349,6 @@ export function isEmpty(val) {
 }
 
 export function isZh() {
+  console.log('store.getters.language=', store.getters.language)
   return store.getters.language !== 'en'
 }

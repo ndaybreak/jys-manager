@@ -5,7 +5,7 @@ export default {
     rateManage: '通用法币管理',
     areaCodeManage: '区域代码管理',
     currencyManage: '币种管理',
-    dealManage: '币币交易币种管理',
+    dealManage: '交易币种管理',
     pushDrawManage: '通用数字币管理',
     // 客户管理
     customerManage: '客户管理',
@@ -29,8 +29,12 @@ export default {
     // 事务管理
     auditManage: '事务管理',
     customerAuth: '交易客户认证审核',
+    companyAuth: '机构客户认证审核',
     rechargeRecord: '客户充值记录',
     withdrawAudit: '提现审核',
+    fiatWithdraw: '法币提现审核',
+    fiatRecharge: '法币充值审核',
+    bankCard: '绑卡审核',
     // 客户服务
     customerService: '客户服务',
     appealProcess: '申诉仲裁',
@@ -137,6 +141,7 @@ export default {
   navbar: {
     logOut: '退出登录',
     dashboard: '首页',
+    modifyPassword: '修改密码',
     github: '项目地址',
     screenfull: '全屏',
     theme: '换肤'
@@ -561,7 +566,8 @@ export default {
     updateSuccess: '更新成功',
     menu: '请选择菜单',
     full_name: '请输入姓名',
-    resetPwd: '确定重置密码？'
+    resetPwd: '确定重置密码？',
+    password: '长度为8-12位，最少包括一位大写字母、一位小写字母、一位数字及一个特殊字符'
   },
   map: {
     recharge: '充值',

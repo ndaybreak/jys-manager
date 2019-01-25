@@ -12,6 +12,8 @@
               style="width: 100%;min-height:500px;">
       <el-table-column align="center" label="ID" width="50" prop="id"></el-table-column>
       <el-table-column align="center" :label="$t('table.abbr')" width="80" prop="coin_code"></el-table-column>
+      <el-table-column align="center" :label="$t('table.symbol')" width="80" prop="symbol"></el-table-column>
+      <el-table-column align="center" :label="$t('table.usdCurrencyExchangeRate')" width="150" prop="usd_currency_exchange_rate"></el-table-column>
       <el-table-column align="center" :label="$t('table.enName')" width="100" prop="coin_name"></el-table-column>
       <el-table-column align="center" :label="$t('table.zhName')" width="100" prop="coin_name_ch"></el-table-column>
       <el-table-column align="center" :label="$t('table.isTargetCoin')" width="120">
@@ -85,6 +87,12 @@
         </el-form-item>
         <el-form-item :label="$t('table.zhName')" prop="coin_name_ch" class="item-right">
           <el-input v-model="temp.coin_name_ch"></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('table.symbol')" prop="symbol">
+          <el-input v-model="temp.symbol"></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('table.usdCurrencyExchangeRate')" prop="usd_currency_exchange_rate" class="item-right">
+          <el-input type="number" v-model="temp.usd_currency_exchange_rate"></el-input>
         </el-form-item>
         <el-form-item :label="$t('table.isTargetCoin')" prop="is_main_coin" style="width: 300px;">
           <el-radio v-model="temp.is_main_coin" label='Y'>{{$t('table.yes')}}</el-radio>
@@ -180,7 +188,7 @@
         total: null,
         listLoading: true,
         query: {
-          isVC: 1,
+          isVC: 2,
           currPage: 1,
           pageSize: 15
         },
@@ -198,7 +206,9 @@
           deposit_precision: '',
           btc_exchange_rate: '',
           icon: '',
-          is_trade: true
+          is_trade: true,
+          symbol: '',
+          usd_currency_exchange_rate: ''
         },
         dialogFormVisible: false,
         dialogStatus: '',
@@ -219,7 +229,9 @@
           withdraw_precision: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
           otc_precision: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
           deposit_precision: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
-          btc_exchange_rate: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }]
+          btc_exchange_rate: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
+          symbol: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
+          usd_currency_exchange_rate: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }]
         },
         // imageUrl: 'http://img3.redocn.com/20120410/Redocn_2012041007514574.jpg',
         imageUrl: '',
@@ -306,7 +318,9 @@
           btc_exchange_rate: '3',
           // icon: 'http://img.sccnn.com/bimg/338/24556.jpg'
           icon: '',
-          is_trade: true
+          is_trade: true,
+          symbol: '',
+          usd_currency_exchange_rate: ''
         }
       },
       handleCreate() {
@@ -326,6 +340,7 @@
               return
             }
             const para = Object.assign({}, this.temp)
+            para.isVC = 2
             para.is_main_coin = str2Bool(this.temp.is_main_coin)
             para.is_recharge = str2Bool(this.temp.is_recharge)
             para.is_withdraw_cash = str2Bool(this.temp.is_withdraw_cash)

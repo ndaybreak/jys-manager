@@ -28,9 +28,13 @@ export default {
     rechargeAddress: 'WithDrawal Addresses',
     // 事务管理
     auditManage: 'Processing',
-    customerAuth: 'KYC',
+    customerAuth: 'KYC-personal',
+    companyAuth: 'KYC-company',
     rechargeRecord: 'Deposit Records',
     withdrawAudit: 'Withdrawals Review',
+    fiatWithdraw: 'Fiat Withdrawals Review',
+    fiatRecharge: 'Fiat Deposit Review',
+    bankCard: 'Bank Card',
     // 客户服务
     customerService: 'Service',
     appealProcess: 'Appeal-arbitrating',
@@ -137,6 +141,7 @@ export default {
   navbar: {
     logOut: 'Log Out',
     dashboard: 'Home',
+    modifyPassword: 'Modify Password',
     github: 'Github',
     screenfull: 'screenfull',
     theme: 'theme'
@@ -284,12 +289,12 @@ export default {
     is_big_otc: 'OTC block trade',
     big_otc_day_limit: 'OTC_Trd_Limit/24h(Block)(BTC)',
     big_otc_single_limit: 'OTC_Trd_Limit/order(Block)(BTC)',
-    is_coin_trade: 'VC-Exchange authority',
-    coin_day_limit: 'Exchange_Limit/24h(BTC)',
+    is_coin_trade: 'Exchange authority',
+    coin_day_limit: 'VC_Exchange_Limit/24h(BTC)',
     is_withdraw_cash: 'Withdrawal authority',
-    withdraw_cash_day_limit: 'Withdrawal_limit/24h(BTC)',
+    withdraw_cash_day_limit: 'VC_Withdrawal_limit/24h(BTC)',
     is_recharge: 'Deposit authority',
-    recharge_day_limit: 'Deposit_Limit/24h(BTC)',
+    recharge_day_limit: 'VC_Deposit_Limit/24h(BTC)',
     merchantDesc: 'PARM Desc',
     merchantLevel: 'Merchant level',
     is_merchant: 'Merchant',
@@ -561,7 +566,8 @@ export default {
     updateSuccess: 'Update Success',
     menu: 'Please select menus',
     full_name: 'Input name',
-    resetPwd: 'Are you sure to reset password?'
+    resetPwd: 'Are you sure to reset password?',
+    password: '8-12 bits in length, including at least one capital letter, one lowercase letter, one digit and a special character'
   },
   map: {
     recharge: 'Recharge',

@@ -243,15 +243,16 @@
         })
       },
       getUpdatedObj(temp) {
-        const newObj = { id: temp.id }
-        Object.keys(temp).filter(attr => {
-          return attr !== 'id'
-        }).forEach(attr => {
-          if (this.updatingObj[attr] !== temp[attr]) {
-            newObj[attr] = temp[attr]
-          }
-        })
-        return newObj
+        return temp
+        // const newObj = { id: temp.id }
+        // Object.keys(temp).filter(attr => {
+        //   return attr !== 'id'
+        // }).forEach(attr => {
+        //   if (this.updatingObj[attr] !== temp[attr]) {
+        //     newObj[attr] = temp[attr]
+        //   }
+        // })
+        // return newObj
       },
       updateData() {
         this.$refs['dataForm'].validate((valid) => {

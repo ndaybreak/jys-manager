@@ -38,6 +38,12 @@ export const constantRouterMap = [
       component: () => import('@/views/dashboard/index'),
       name: 'dashboard',
       meta: { title: 'dashboard', icon: 'dashboard', noCache: true }
+    }, {
+      path: 'modify-password',
+      component: () => import('@/views/modify-password/index'),
+      name: 'modifyPassword',
+      hidden: true,
+      meta: { title: 'modifyPassword', noCache: true }
     }]
   }
 ]
@@ -84,7 +90,8 @@ export const asyncRouterMap = [
           },
           {
             path: 'rate',
-            component: () => import('@/views/system/rate'),
+            // component: () => import('@/views/system/rate'),
+            component: () => import('@/views/system/currency/fiat'),
             name: 'rate',
             meta: { title: 'rateManage', id: '1-2-2' }
           },
@@ -244,6 +251,12 @@ export const asyncRouterMap = [
         meta: { title: 'customerAuth', id: '3-1' }
       },
       {
+        path: 'company',
+        component: () => import('@/views/audit/company'),
+        name: 'companyAuth',
+        meta: { title: 'companyAuth', id: '3-7' }
+      },
+      {
         path: 'withdraw',
         component: () => import('@/views/audit/withdraw'),
         name: 'withdraw',
@@ -254,6 +267,24 @@ export const asyncRouterMap = [
         component: () => import('@/views/audit/rechargeRecord'),
         name: 'rechargeRecord',
         meta: { title: 'rechargeRecord', id: '3-3' }
+      },
+      {
+        path: 'fiat-withdraw',
+        component: () => import('@/views/audit/fiatWithdraw'),
+        name: 'fiatWithdraw',
+        meta: { title: 'fiatWithdraw', id: '3-4' }
+      },
+      {
+        path: 'fiat-recharge',
+        component: () => import('@/views/audit/fiatRecharge'),
+        name: 'fiatRecharge',
+        meta: { title: 'fiatRecharge', id: '3-5' }
+      },
+      {
+        path: 'bank-card',
+        component: () => import('@/views/audit/bankCard'),
+        name: 'bankCard',
+        meta: { title: 'bankCard', id: '3-6' }
       }
     ]
   },

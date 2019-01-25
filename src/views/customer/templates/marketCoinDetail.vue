@@ -32,6 +32,7 @@
         </template>
       </el-table-column>
       <el-table-column align="center" :label="$t('table.rate')" width="100" prop="fee_rate"></el-table-column>
+      <el-table-column align="center" :label="$t('table.min_quantity')" width="100" prop="min_quantity"></el-table-column>
       <el-table-column align="center" :label="$t('table.max_quantity')" width="100" prop="max_quantity"></el-table-column>
       <el-table-column align="center" :label="$t('table.remark')" width="200" prop="info"></el-table-column>
       <el-table-column align="center" :label="$t('table.creator')" width="100" prop="creator_name"></el-table-column>
@@ -47,7 +48,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column v-if="isEdit" fixed="right" align="center" :label="$t('table.actions')" width="200" class-name="small-padding fixed-width">
+      <el-table-column v-if="isEdit" fixed="right" align="center" :label="$t('table.actions')" width="150" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">{{$t('table.edit')}}</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.row)">{{$t('table.delete')}}</el-button>
@@ -83,10 +84,10 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <!--<el-form-item label="最小数量" prop="min_quantity">-->
-          <!--<el-input-number v-model="tempInfo.min_quantity" :precision="6" :step="0.01"></el-input-number>-->
-        <!--</el-form-item>-->
-        <el-form-item :label="$t('table.max_quantity')" prop="max_quantity">
+        <el-form-item :label="$t('table.min_quantity')" prop="min_quantity">
+          <el-input-number v-model="tempInfo.min_quantity" :precision="6" :step="0.01"></el-input-number>
+        </el-form-item>
+        <el-form-item :label="$t('table.max_quantity')" prop="max_quantity" class="item-right">
           <el-input-number v-model="tempInfo.max_quantity" :precision="6" :step="0.01"></el-input-number>
         </el-form-item>
         <el-form-item :label="$t('table.remark')" prop="info">

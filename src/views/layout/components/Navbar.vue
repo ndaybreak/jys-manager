@@ -23,11 +23,11 @@
           <i class="el-icon-caret-bottom"></i>
         </div>
         <el-dropdown-menu slot="dropdown">
-          <!--<router-link to="/">-->
-            <!--<el-dropdown-item>-->
-              <!--{{$t('navbar.dashboard')}}-->
-            <!--</el-dropdown-item>-->
-          <!--</router-link>-->
+          <router-link to="/modify-password">
+            <el-dropdown-item>
+              {{$t('navbar.modifyPassword')}}
+            </el-dropdown-item>
+          </router-link>
           <!--<a target='_blank' href="https://github.com/PanJiaChen/vue-element-admin/">-->
             <!--<el-dropdown-item>-->
               <!--{{$t('navbar.github')}}-->

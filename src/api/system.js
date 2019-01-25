@@ -206,3 +206,12 @@ export function rateRecover(id) {
     params: { id }
   })
 }
+// module--通用法币管理
+// 恢复
+export function updatePwd(password) {
+  return request({
+    url: '/admin/managementSystem/updateManagerPassword',
+    method: 'post',
+    params: { password }
+  })
+}

@@ -15,6 +15,7 @@
       </el-table-column>
       <el-table-column align="center" :label="$t('table.coin_fee_template')" width="150" prop="coin_fee_template_name"></el-table-column>
       <el-table-column align="center" :label="$t('table.pairTemplate')" width="150" prop="target_market_coin_fee_template_name"></el-table-column>
+      <el-table-column align="center" label="Times/24h" width="100" prop="withdraw_times"></el-table-column>
       <el-table-column align="center" :label="$t('table.is_common_otc')" width="150">
         <template slot-scope="scope">
           <span>{{scope.row.is_common_otc | bool2Ch}}</span>
@@ -35,18 +36,21 @@
         </template>
       </el-table-column>
       <el-table-column align="center" :label="$t('table.coin_day_limit')" width="120" prop="coin_day_limit"></el-table-column>
+      <el-table-column align="center" label="Fiat_Exchange_Limit/24h" width="120" prop="day_coin_limit"></el-table-column>
       <el-table-column align="center" :label="$t('table.is_withdraw_cash')" width="100">
         <template slot-scope="scope">
           <span>{{scope.row.is_withdraw_cash | bool2Ch}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" :label="$t('table.withdraw_cash_day_limit')" width="120" prop="withdraw_cash_day_limit"></el-table-column>
+      <el-table-column align="center" label="Fiat_Withdrawal_limit/24h" width="120" prop="day_withdraw_limit"></el-table-column>
       <el-table-column align="center" :label="$t('table.is_recharge')" width="100">
         <template slot-scope="scope">
           <span>{{scope.row.is_recharge | bool2Ch}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" :label="$t('table.recharge_day_limit')" width="120" prop="recharge_day_limit"></el-table-column>
+      <el-table-column align="center" label="Fiat_Deposit_Limit/24h" width="120" prop="day_recharge_limit"></el-table-column>
       <el-table-column align="center" :label="$t('table.creator')" width="100" prop="creator_name"></el-table-column>
       <el-table-column align="center" :label="$t('table.createTime')" width="160" prop="create_time">
         <template slot-scope="scope">
@@ -75,7 +79,7 @@
     </div>
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form :rules="rules" :inline="true" ref="dataForm" :model="tempInfo" label-position="left" label-width="200px" style='width: 900px; margin-left:50px;'>
+      <el-form :rules="rules" :inline="true" ref="dataForm" :model="tempInfo" label-position="left" label-width="250px" style='width: 1000px; margin-left:50px;'>
         <el-form-item :label="$t('table.customerLevel')" prop="level">
           <!--<el-select clearable class="filter-item" v-model="tempInfo.level" :placeholder="$t('tip.select')" style="width: 138px;">-->
             <!--<el-option v-for="item in levelList" :key="item.id" :label="item.name" :value="item.id">-->
@@ -83,21 +87,24 @@
           <!--</el-select>-->
           <el-input type="number" v-model="tempInfo.level"></el-input>
         </el-form-item>
-        <el-form-item :label="$t('table.is_real_name')" prop="is_real_name" style="width: 400px;margin-left: 74px;" class="item-right">
+        <el-form-item :label="$t('table.is_real_name')" prop="is_real_name" style="width: 400px;margin-left: 30px;" class="item-right">
           <el-radio v-model="tempInfo.is_real_name" label='Y'>{{$t('table.yes')}}</el-radio>
           <el-radio v-model="tempInfo.is_real_name" label='N'>{{$t('table.no')}}</el-radio>
         </el-form-item>
         <el-form-item :label="$t('table.coin_fee_template')" prop="coin_fee_template">
-          <el-select clearable class="filter-item" v-model="tempInfo.coin_fee_template" :placeholder="$t('tip.select')" style="width: 138px;">
+          <el-select clearable class="filter-item" v-model="tempInfo.coin_fee_template" :placeholder="$t('tip.select')">
             <el-option v-for="item in coinFeeTemplateList" :key="item.id" :label="item.name" :value="item.id">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('table.pairTemplate')" prop="target_market_coin_fee_template" class="item-right" style="margin-left: 74px;">
+        <el-form-item :label="$t('table.pairTemplate')" prop="target_market_coin_fee_template" class="item-right item-coin-fee">
           <el-select clearable class="filter-item" v-model="tempInfo.target_market_coin_fee_template" :placeholder="$t('tip.select')">
             <el-option v-for="item in targetMarketCoinFeeTemplateList" :key="item.id" :label="item.name" :value="item.id">
             </el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item label="Times/24h" prop="withdraw_times" style="width: 600px;">
+          <el-input type="number" v-model="tempInfo.withdraw_times"></el-input>
         </el-form-item>
         <el-form-item :label="$t('table.is_common_otc')" prop="is_common_otc" style="width: 400px;">
           <el-radio v-model="tempInfo.is_common_otc" label='Y'>{{$t('table.yes')}}</el-radio>
@@ -126,6 +133,9 @@
         <el-form-item :label="$t('table.coin_day_limit')" prop="coin_day_limit" class="item-right">
           <el-input-number v-model="tempInfo.coin_day_limit" :precision="6" :step="0.01"></el-input-number>
         </el-form-item>
+        <el-form-item label="Fiat_Exchange_Limit/24h" prop="day_coin_limit" class="item-right item-fiat">
+          <el-input-number v-model="tempInfo.day_coin_limit" :precision="6" :step="0.01"></el-input-number>
+        </el-form-item>
         <el-form-item :label="$t('table.is_withdraw_cash')" prop="is_withdraw_cash" style="width: 400px;">
           <el-radio v-model="tempInfo.is_withdraw_cash" label='Y'>{{$t('table.yes')}}</el-radio>
           <el-radio v-model="tempInfo.is_withdraw_cash" label='N'>{{$t('table.no')}}</el-radio>
@@ -133,12 +143,18 @@
         <el-form-item :label="$t('table.withdraw_cash_day_limit')" prop="withdraw_cash_day_limit" class="item-right">
           <el-input-number v-model="tempInfo.withdraw_cash_day_limit" :precision="6" :step="0.01"></el-input-number>
         </el-form-item>
+        <el-form-item label="Fiat_Withdrawal_limit/24h" prop="day_withdraw_limit" class="item-right item-fiat">
+          <el-input-number v-model="tempInfo.day_withdraw_limit" :precision="6" :step="0.01"></el-input-number>
+        </el-form-item>
         <el-form-item :label="$t('table.is_recharge')" prop="is_recharge" style="width: 400px;">
           <el-radio v-model="tempInfo.is_recharge" label='Y'>{{$t('table.yes')}}</el-radio>
           <el-radio v-model="tempInfo.is_recharge" label='N'>{{$t('table.no')}}</el-radio>
         </el-form-item>
         <el-form-item :label="$t('table.recharge_day_limit')" prop="recharge_day_limit" class="item-right">
           <el-input-number v-model="tempInfo.recharge_day_limit" :precision="6" :step="0.01"></el-input-number>
+        </el-form-item>
+        <el-form-item label="Fiat_Deposit_Limit/24h" prop="day_recharge_limit" class="item-right item-fiat">
+          <el-input-number v-model="tempInfo.day_recharge_limit" :precision="6" :step="0.01"></el-input-number>
         </el-form-item>
         <el-form-item :label="$t('table.customerParaDesc')" prop="description">
           <el-input type="textarea" style="width: 625px;" :rows="3" v-model="tempInfo.description"></el-input>
@@ -192,6 +208,7 @@
         },
         rules: {
           level: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
+          withdraw_times: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
           coin_fee_template: [{ required: true, message: this.$t('tip.select'), trigger: 'blur' }],
           target_market_coin_fee_template: [{ required: true, message: this.$t('tip.select'), trigger: 'blur' }],
           common_otc_day_limit: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
@@ -201,6 +218,9 @@
           withdraw_cash_day_limit: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
           recharge_day_limit: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
           coin_day_limit: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
+          day_coin_limit: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
+          day_withdraw_limit: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
+          day_recharge_limit: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
           is_real_name: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
           is_common_otc: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
           is_big_otc: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
@@ -300,6 +320,9 @@
           withdraw_cash_day_limit: '',
           recharge_day_limit: '',
           coin_day_limit: '',
+          day_coin_limit: '',
+          day_withdraw_limit: '',
+          day_recharge_limit: '',
           recharge_precision: '',
           withdraw_precision: '',
           otc_precision: '',
@@ -397,5 +420,18 @@
 <style scoped>
   .item-right {
     margin-left: 10px;
+  }
+  .item-coin-fee {
+    margin-left: 12px;
+  }
+</style>
+<style>
+  .item-coin-fee .el-form-item__label {
+    width: 196px !important;
+  }
+  .item-fiat {
+    display: block !important;
+    text-align: right;
+    margin-right: 127px !important;
   }
 </style>

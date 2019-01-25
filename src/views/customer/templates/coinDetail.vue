@@ -32,6 +32,11 @@
           <span>{{scope.row.fee_rate}} {{scope.row.coin_code}}</span>
         </template>
       </el-table-column>
+      <el-table-column align="center" label="Fee Type" width="100">
+        <template slot-scope="scope">
+          <span>{{scope.row.toll_type | feeTypeFilter}}</span>
+        </template>
+      </el-table-column>
       <el-table-column align="center" :label="$t('table.min_quantity')" width="120" prop="min_quantity"></el-table-column>
       <el-table-column align="center" :label="$t('table.max_quantity')" width="120" prop="max_quantity"></el-table-column>
       <el-table-column align="center" :label="$t('table.remark')" width="200" prop="info"></el-table-column>
@@ -63,6 +68,12 @@
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form :rules="rules" :inline="true" ref="dataForm" :model="tempInfo" label-position="left" label-width="170px" style='width: 900px; margin-left:50px;'>
+        <el-form-item :label="$t('table.rateTemplate')" prop="template" style="display: block;">
+          <el-select clearable class="filter-item" v-model="tempInfo.template" :placeholder="$t('tip.select')">
+            <el-option v-for="item in coinFeeTemplateList" :key="item.id" :label="item.name" :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item :label="$t('table.rateType')" prop="type">
           <el-select clearable class="filter-item" v-model="tempInfo.type" :placeholder="$t('tip.select')">
             <el-option v-for="item in typeList" :key="item.id" :label="item.name" :value="item.id">
@@ -75,14 +86,14 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('table.fee')" prop="fee_rate">
-          <el-input-number v-model="tempInfo.fee_rate" :precision="6" :step="0.01"></el-input-number>
-        </el-form-item>
-        <el-form-item :label="$t('table.rateTemplate')" prop="template" class="item-right">
-          <el-select clearable class="filter-item" v-model="tempInfo.template" :placeholder="$t('tip.select')">
-            <el-option v-for="item in coinFeeTemplateList" :key="item.id" :label="item.name" :value="item.id">
+        <el-form-item label="Fee Type" prop="toll_type">
+          <el-select clearable class="filter-item" v-model="tempInfo.toll_type" :placeholder="$t('tip.select')">
+            <el-option v-for="item in feeTypeList" :key="item.id" :label="item.name" :value="item.id">
             </el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item :label="$t('table.fee')" prop="fee_rate" class="item-right">
+          <el-input-number v-model="tempInfo.fee_rate" :precision="6" :step="0.01"></el-input-number>
         </el-form-item>
         <el-form-item :label="$t('table.min_quantity')" prop="min_quantity">
           <el-input-number v-model="tempInfo.min_quantity" :precision="6" :step="0.01"></el-input-number>
@@ -108,7 +119,6 @@
   import { coinTempateDetailFetchAll, coinTempateDetailCreate, coinTempateDetailUpdate, coinTempateDetailDelete, coinFeeTemplateDropdown, getCoinList } from '@/api/customer'
   import waves from '@/directive/waves' // 水波纹指令
   import i18n from '@/lang'
-  console.log(i18n)
 
   export default {
     name: 'coinTemplate',
@@ -122,6 +132,13 @@
         const typeMap = {
           1: i18n.t('map.recharge'),
           2: i18n.t('map.withdraw')
+        }
+        return typeMap[type]
+      },
+      feeTypeFilter(type) {
+        const typeMap = {
+          1: 'Fixed',
+          2: 'Percentage'
         }
         return typeMap[type]
       }
@@ -149,6 +166,7 @@
           type: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
           coin_id: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
           fee_rate: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
+          toll_type: [{ required: true, message: this.$t('tip.select'), trigger: 'blur' }],
           template: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
           min_quantity: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
           max_quantity: [{ required: true, message: this.$t('tip.input'), trigger: 'blur' }],
@@ -160,6 +178,13 @@
         }, {
           id: 2,
           name: this.$t('map.withdraw')
+        }],
+        feeTypeList: [{
+          id: 1,
+          name: 'Fixed'
+        }, {
+          id: 2,
+          name: 'Percentage'
         }],
         updatingObj: '',
         coinFeeTemplateList: [],

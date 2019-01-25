@@ -27,6 +27,32 @@ export function customerInfoCheck(query) {
   })
 }
 
+// module--机构客户认证审核
+// 条件查询 （账号，状态，申请时间，按照时间排序）
+export function companyFetchAll(query) {
+  return request({
+    url: '/admin/managementSystem/queryWhereAuthEnterpriseByAccount',
+    method: 'post',
+    params: query
+  })
+}
+// 机构客户认证审批
+export function companyAudit(query) {
+  return request({
+    url: '/admin/managementSystem/updateAuthEnterpriseByAccount',
+    method: 'post',
+    params: query
+  })
+}
+// 机构客户认证材料查看
+export function companyInfoCheck(query) {
+  return request({
+    url: '/admin/managementSystem/queryAuthEnterpriseDetail',
+    method: 'post',
+    params: query
+  })
+}
+
 // module--提现审核
 // 管理员查看提现申请信息
 export function withdrawFetchAll(query) {
@@ -38,7 +64,7 @@ export function withdrawFetchAll(query) {
 }
 
 // 提现申请审核通过
-export function withdrawVerifyHandling(query) {
+export function withdrawVerifyPass(query) {
   return request({
     url: '/withdrawCash/admin/verifyHandling',
     method: 'post',
@@ -95,5 +121,76 @@ export function rechargeConfirmation(data) {
       block: para.block,
       info: para.info
     }
+  })
+}
+// 充值失败
+export function vcRechargeFail(para) {
+  return request({
+    url: '/rechargeCash/admin/updateRechargeApplicationFail',
+    method: 'post',
+    params: para
+  })
+}
+// 更新法币提现结果
+export function updateWithdrawResult(para) {
+  return request({
+    url: '/withdrawCash/admin/updateWithdrawResult',
+    method: 'post',
+    params: para
+  })
+}
+// module--绑卡审核
+// 条件查询 （账号）
+export function bankCardFetchAll(query) {
+  return request({
+    url: '/pay/admin/getPayAccountInfoByAdmin',
+    method: 'get',
+    params: query
+  })
+}
+// 绑卡审核
+export function bankCardAudit(query) {
+  return request({
+    url: '/pay/admin/updatePayAccountInfo',
+    method: 'post',
+    params: query
+  })
+}
+
+// module--法币提现审核
+// 管理员查看法币提现申请信息
+export function fiatWithdrawFetchAll(query) {
+  return request({
+    url: '/withdrawCash/admin/getWithdrawListByAdmin',
+    method: 'get',
+    params: query
+  })
+}
+
+// 法币提现审核
+export function fiatWithdrawAudit(query) {
+  return request({
+    url: '/withdrawCash/admin/approveWithdraw',
+    method: 'post',
+    params: query
+  })
+}
+
+// module--法币充值审核
+// 管理员查看法币充值申请信息
+export function fiatRechargeFetchAll(query) {
+  return request({
+    url: '/rechargeCash/admin/getRechargeListByAdmin',
+    method: 'get',
+    params: query
+  })
+}
+
+// 法币充值审核
+export function fiatRechargeAudit(query) {
+  return request({
+    url: '/rechargeCash/admin/approveRecharge',
+    method: 'post',
+    params: query
   })
 }

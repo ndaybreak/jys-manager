@@ -88,7 +88,7 @@
 
 <script>
   // customerInfoCheck
-  import { withdrawFetchAll, withdrawVerifyHandling, withdrawVerifyRefuse, withdrawSuccess, withdrawFail } from '@/api/audit'
+  import { withdrawFetchAll, withdrawVerifyPass, withdrawVerifyRefuse, withdrawSuccess, withdrawFail } from '@/api/audit'
   import waves from '@/directive/waves' // 水波纹指令
   import { parseTime, kebabCaseData2Camel, intl } from '@/utils'
   import imageView from 'vue-imageview'
@@ -244,7 +244,7 @@
             info: value
           }
           if (type === 'pass') {
-            withdrawVerifyHandling(para).then(res => {
+            withdrawVerifyPass(para).then(res => {
               this.$message({
                 type: 'success',
                 message: this.$t('tip.success')
