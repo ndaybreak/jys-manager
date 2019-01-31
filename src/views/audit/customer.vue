@@ -22,7 +22,7 @@
       <!--</el-table-column>-->
       <!--<el-table-column align="center" label="UID" width="150" prop="auth_application_id"></el-table-column>-->
       <el-table-column align="center" :label="$t('table.email')" width="150" prop="email"></el-table-column>
-      <el-table-column align="center" :label="$t('table.area_code')" width="100" prop="area_code"></el-table-column>
+      <el-table-column align="center" :label="$t('table.area_code')" width="100" prop="area_code_test"></el-table-column>
       <el-table-column align="center" :label="$t('table.mobile_number')" width="150" prop="mobile_number"></el-table-column>
       <el-table-column align="center" :label="$t('table.authMaterials')" width="150">
         <template slot-scope="scope">

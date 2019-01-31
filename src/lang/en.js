@@ -272,6 +272,7 @@ export default {
     coin: 'Coin',
     fee: 'Service Fee',
     min_quantity: 'Min Quantity',
+    min_fee: 'Min Fee',
     max_quantity: 'Max Quantity',
     common_min_quantity: 'Min_qty(Normal Trd)',
     common_max_quantity: 'Max Qty（Normal Trd）',

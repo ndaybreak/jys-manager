@@ -272,6 +272,7 @@ export default {
     coin: '币种',
     fee: '手续费',
     min_quantity: '最小数量',
+    min_fee: '最小手续费',
     max_quantity: '最大数量',
     common_min_quantity: '普通广告最小限制',
     common_max_quantity: '普通广告最大限制',

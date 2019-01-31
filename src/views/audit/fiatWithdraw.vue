@@ -21,7 +21,7 @@
         <!--</template>-->
       <!--</el-table-column>-->
       <el-table-column align="center" :label="$t('table.email')" width="150" prop="email"></el-table-column>
-      <el-table-column align="center" :label="$t('table.area_code')" width="100" prop="area_code"></el-table-column>
+      <el-table-column align="center" :label="$t('table.area_code')" width="100" prop="area_code_test"></el-table-column>
       <el-table-column align="center" :label="$t('table.mobile_number')" width="120" prop="mobile_number"></el-table-column>
       <el-table-column align="center" :label="$t('table.withdraw_coin')" width="80" prop="coin_code"></el-table-column>
       <el-table-column align="center" label="Order Number" width="120" prop="order_number"></el-table-column>

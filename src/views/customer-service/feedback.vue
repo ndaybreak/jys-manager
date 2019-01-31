@@ -69,7 +69,7 @@
       <el-row>{{$t('table.questionType')}}：{{tempInfo.type | typeFilter}}</el-row>
       <el-row class="feedback-info">
         <div>{{$t('table.questionDesc')}}：</div>
-        <div>     {{tempInfo.feedbackInfo}}</div>
+        <div style="word-break: break-all;">{{tempInfo.feedbackInfo}}</div>
       </el-row>
       <el-row>{{$t('table.email')}}：{{tempInfo.email}}</el-row>
       <div>{{$t('table.screenshot')}}：</div>

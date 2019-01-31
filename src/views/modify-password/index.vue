@@ -45,8 +45,6 @@
         this.$refs['updateForm'].validate((valid) => {
           if (valid) {
             updatePwd(this.temp.password).then((res) => {
-              this.getList()
-              this.dialogFormVisible = false
               this.$notify({
                 title: this.$t('tip.successTitle'),
                 message: this.$t('tip.updateSuccess'),

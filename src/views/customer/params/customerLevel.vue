@@ -15,7 +15,7 @@
       </el-table-column>
       <el-table-column align="center" :label="$t('table.coin_fee_template')" width="150" prop="coin_fee_template_name"></el-table-column>
       <el-table-column align="center" :label="$t('table.pairTemplate')" width="150" prop="target_market_coin_fee_template_name"></el-table-column>
-      <el-table-column align="center" label="Times/24h" width="100" prop="withdraw_times"></el-table-column>
+      <el-table-column align="center" label="Withdraw Times/24h" width="90" prop="withdraw_times"></el-table-column>
       <el-table-column align="center" :label="$t('table.is_common_otc')" width="150">
         <template slot-scope="scope">
           <span>{{scope.row.is_common_otc | bool2Ch}}</span>
@@ -103,7 +103,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="Times/24h" prop="withdraw_times" style="width: 600px;">
+        <el-form-item label="Withdraw Times/24h" prop="withdraw_times" style="width: 600px;">
           <el-input type="number" v-model="tempInfo.withdraw_times"></el-input>
         </el-form-item>
         <el-form-item :label="$t('table.is_common_otc')" prop="is_common_otc" style="width: 400px;">
