@@ -27,10 +27,11 @@ gulp.task('test', function() {
   return gulp.src(webpackFile.build.assetsRoot + '/**')
     .pipe(vsftp({
       host: '54.255.182.11',
+      // host: '13.229.58.243',
       user: 'root',
       key: '~/.ssh/globalstox_singapore.pem',
       cleanFiles: true,
-      remotePath: '/home/globalstox/davao/apache-tomcat-8.0.51/webapps/davao/'
+      remotePath: '/home/globalstox/davao/apache-tomcat-8.0.51/webapps/davao-manager/'
     }))
 })
 /* 上传生产目录到生产环境 */
@@ -41,7 +42,7 @@ gulp.task('prod', function() {
       user: 'globalstox',
       cleanFiles: true,
       key: '~/.ssh/singapore_exchange_online_globalstox.pem',
-      remotePath: '/home/globalstox/davao/apache-tomcat-8.0.51/webapps/davao/'
+      remotePath: '/home/globalstox/davao/apache-tomcat-8.0.51/webapps/davao-manager/'
     }))
 })
 /* 上传生产目录到预生成环境 */

@@ -28,13 +28,13 @@ export default {
     rechargeAddress: 'WithDrawal Addresses',
     // 事务管理
     auditManage: 'Processing',
-    customerAuth: 'KYC-personal',
-    companyAuth: 'KYC-company',
-    rechargeRecord: 'Deposit Records',
-    withdrawAudit: 'Withdrawals Review',
+    customerAuth: 'KYC Individual',
+    companyAuth: 'KYC Corporation',
+    rechargeRecord: 'VC Deposit Records',
+    withdrawAudit: 'VC Withdrawals Review',
     fiatWithdraw: 'Fiat Withdrawals Review',
     fiatRecharge: 'Fiat Deposit Review',
-    bankCard: 'Bank Card',
+    bankCard: 'Bank accounts',
     // 客户服务
     customerService: 'Service',
     appealProcess: 'Appeal-arbitrating',

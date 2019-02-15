@@ -50,8 +50,8 @@
           <el-button v-if="scope.row.status === 1" size="mini" type="danger" @click="handleAudit(scope.row, 'reject')">{{$t('table.reject')}}</el-button>
           <el-button v-if="scope.row.status === 3" type="success" size="mini" @click="handleResult(scope.row, 'success')">{{$t('table.success')}}</el-button>
           <el-button v-if="scope.row.status === 3" size="mini" type="warning" @click="handleResult(scope.row, 'fail')">{{$t('table.fail')}}</el-button>
-          <el-button v-if="scope.row.status === 4" type="primary" size="mini" @click="handleUpdate(scope.row, 'success')">{{$t('table.edit')}}</el-button>
-          <el-button v-if="scope.row.status === 5" size="mini" type="primary" @click="handleUpdate(scope.row, 'fail')">{{$t('table.edit')}}</el-button>
+          <!--<el-button v-if="scope.row.status === 4" type="primary" size="mini" @click="handleUpdate(scope.row, 'success')">{{$t('table.edit')}}</el-button>-->
+          <!--<el-button v-if="scope.row.status === 5" size="mini" type="primary" @click="handleUpdate(scope.row, 'fail')">{{$t('table.edit')}}</el-button>-->
           <!--<span v-if="scope.row.status !== 1 && scope.row.status !== 3">{{scope.row.status | statusFilter}}</span>-->
         </template>
       </el-table-column>

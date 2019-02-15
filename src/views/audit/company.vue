@@ -35,7 +35,7 @@
           <span>{{scope.row.apply_time | parseTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" :label="$t('table.auditor')" width="150" prop="name"></el-table-column>
+      <el-table-column align="center" :label="$t('table.auditor')" width="150" prop="manager_name"></el-table-column>
       <el-table-column align="center" :label="$t('table.audit_date')" width="200">
         <template slot-scope="scope">
           <span>{{scope.row.approve_time | parseTime}}</span>
@@ -64,7 +64,7 @@
           <div class="dialog-item">Nature of Business: {{tempInfo.nature_work}}</div>
           <div class="dialog-item">Contact Person: {{tempInfo.liaison_person}}</div>
           <div class="dialog-item">Registered Address: {{tempInfo.registered_address}}</div>
-          <div class="dialog-item">Date of Incorporation: {{tempInfo.company_registration_date | parseTime}}</div>
+          <div class="dialog-item">Date of Incorporation: {{tempInfo.company_registration_date}}</div>
           <div class="dialog-item">Certificate Incorporation No.: {{tempInfo.company_registration_number}}</div>
           <div class="dialog-item">Email Address: {{tempInfo.contact_address}}</div>
           <div class="dialog-item">Contact No.: ({{tempInfo.contact_area_code}}) {{tempInfo.contact_number}}</div>
