@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Message, Loading } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
+import { getConfig } from '@/utils'
 
 const loadingOption = {
   lock: true,
@@ -14,7 +15,8 @@ let loadingInstance = null
 
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.BASE_API, // api的base_url
+  // baseURL: process.env.BASE_API, // api的base_url
+  baseURL: getConfig().BASE_API, // api的base_url
   timeout: 5000 // request timeout
 })
 

@@ -38,7 +38,7 @@ gulp.task('test', function() {
 gulp.task('prod', function() {
   return gulp.src(webpackFile.build.assetsRoot + '/**')
     .pipe(vsftp({
-      host: '13.229.58.45',
+      // host: '13.229.58.45',
       user: 'globalstox',
       cleanFiles: true,
       key: '~/.ssh/singapore_exchange_online_globalstox.pem',

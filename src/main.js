@@ -19,6 +19,8 @@ import './mock' // simulation data
 
 import * as filters from './filters' // global filters
 
+import { getConfig } from '@/utils'
+
 Vue.use(Element, {
   size: 'medium', // set element-ui default size
   i18n: (key, value) => i18n.t(key, value)
@@ -38,7 +40,8 @@ Vue.mixin({
     }
   },
   created() {
-    this.baseUrl = process.env.BASE_API
+    // this.baseUrl = process.env.BASE_API
+    this.baseUrl = getConfig().BASE_API
   }
 })
 
