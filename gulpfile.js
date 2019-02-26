@@ -26,8 +26,8 @@ gulp.task('zip', () =>
 gulp.task('test', function() {
   return gulp.src(webpackFile.build.assetsRoot + '/**')
     .pipe(vsftp({
-      host: '54.255.182.11',
-      // host: '13.229.58.243',
+      // host: '54.255.182.11',
+      host: '13.229.58.243',
       user: 'root',
       key: '~/.ssh/globalstox_singapore.pem',
       cleanFiles: true,

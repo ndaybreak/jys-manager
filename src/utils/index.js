@@ -349,7 +349,6 @@ export function isEmpty(val) {
 }
 
 export function isZh() {
-  console.log('store.getters.language=', store.getters.language)
   return store.getters.language !== 'en'
 }
 
@@ -362,7 +361,8 @@ export function getConfig() {
   const isLocal = host.indexOf('localhost') > -1
   if (isLocal) {
     webConfig = {
-      BASE_API: 'http://54.255.182.11:8080/DaVaoBusiness'
+      // BASE_API: 'http://54.255.182.11:8080/DaVaoBusiness'
+      BASE_API: 'http://13.229.89.62/DaVaoBusiness'
     }
   } else {
     webConfig = {

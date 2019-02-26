@@ -77,6 +77,11 @@ export default {
     helpList: '帮助列表',
     helpDetail: '帮助详情',
     dashboard: '首页',
+    // 交易对信息管理
+    pairInfo: '交易对信息管理',
+    pairList: '交易对列表',
+    titleList: '文章列表',
+    pairDetail: '文章详情',
     // 权限管理
     authorityManagement: '权限管理',
     roleSetting: '角色设置',
@@ -221,6 +226,7 @@ export default {
     publish: '发布',
     draft: '草稿',
     discontinue: '停用',
+    create: '新建',
     delete: '删除',
     cancel: '取 消',
     confirm: '确 定',
@@ -568,7 +574,9 @@ export default {
     menu: '请选择菜单',
     full_name: '请输入姓名',
     resetPwd: '确定重置密码？',
-    password: '长度为8-12位，最少包括一位大写字母、一位小写字母、一位数字及一个特殊字符'
+    password: '长度为8-12位，最少包括一位大写字母、一位小写字母、一位数字及一个特殊字符',
+    date: '请选择发布时间',
+    class: '请选择类别'
   },
   map: {
     recharge: '充值',

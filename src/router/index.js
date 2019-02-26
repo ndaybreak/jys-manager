@@ -577,6 +577,41 @@ export const asyncRouterMap = [
       }
     ]
   },
+  // content edit
+  {
+    path: '/pair',
+    component: Layout,
+    redirect: '/pair/list',
+    name: 'pair',
+    alwaysShow: true,
+    meta: {
+      title: 'pairInfo',
+      icon: 'documentation',
+      id: '11'
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/pair-info/pairList'),
+        name: 'pairList',
+        meta: { title: 'pairList', id: '11-1' }
+      },
+      {
+        path: 'title-list',
+        component: () => import('@/views/pair-info/titleList'),
+        hidden: true,
+        name: 'titleList',
+        meta: { title: 'titleList', noCache: true, id: '11-1' }
+      },
+      {
+        path: 'pair-detail',
+        component: () => import('@/views/pair-info/detail'),
+        hidden: true,
+        name: 'pairDetail',
+        meta: { title: 'pairDetail', id: '11-1' }
+      }
+    ]
+  },
   // 权限管理
   {
     path: '/authority',

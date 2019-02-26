@@ -41,7 +41,11 @@
           <span>{{scope.row.approve_time | parseTime}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" :label="$t('table.remark')" width="150" prop="approve_result_memo"></el-table-column>
+      <el-table-column align="center" :label="$t('table.remark')" width="150">
+        <template slot-scope="scope">
+          <el-button round @click="showRemark(scope.row)">{{$t('table.check')}}</el-button>
+        </template>
+      </el-table-column>
       <el-table-column align="center" :label="$t('table.audit')" width="150" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button v-if="scope.row.status === 3" type="primary" size="mini" @click="handleAudit(scope.row, 'pass')">{{$t('table.pass')}}</el-button>
@@ -123,11 +127,27 @@
       </div>
     </el-dialog>
 
+    <el-dialog :title="$t('table.check')" :visible.sync="remarkVisible">
+      <el-table :data="remarkData" border fit highlight-current-row
+                style="min-height:100px;">
+        <el-table-column align="center" label="Date" width="300" prop="email">
+          <template slot-scope="scope">
+            <span>{{scope.row.approveTime | parseTime}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="Editor" width="300" prop="approvedBy"></el-table-column>
+        <el-table-column align="center" label="Content" width="335" prop="approveResultMemo"></el-table-column>
+      </el-table>
+      <div slot="footer" class="dialog-footer" style="text-align: center;">
+        <el-button @click="remarkVisible = false">{{$t('table.close')}}</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
-  import { companyFetchAll, companyAudit, companyInfoCheck } from '@/api/audit'
+  import { companyFetchAll, companyAudit, companyInfoCheck, companyInfoLog } from '@/api/audit'
   import waves from '@/directive/waves' // 水波纹指令
   import PictureView from 'vue-simple-picture-preview'
   import { intl, isZh, deepClone } from '@/utils'
@@ -208,6 +228,7 @@
           icons: []
         },
         list: null,
+        remarkData: null,
         total: null,
         listLoading: true,
         query: {
@@ -215,6 +236,7 @@
           pageSize: 15
         },
         dialogFormVisible: false,
+        remarkVisible: false,
         statusList: [{
           id: 0,
           label: intl('map.notSubmit')
@@ -255,6 +277,12 @@
           // obj.credential_sign_pic_addr && this.tempInfo.icons.push(obj.credential_sign_pic_addr)
           // this.tempInfo.icons = ['http://img3.redocn.com/20120410/Redocn_2012041007514574.jpg', 'http://img.sccnn.com/bimg/338/24556.jpg']
           this.dialogFormVisible = true
+        })
+      },
+      showRemark(row) {
+        companyInfoLog(row.id).then(res => {
+          this.remarkData = res.data
+          this.remarkVisible = true
         })
       },
       handleFilter() {

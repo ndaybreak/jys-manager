@@ -76,6 +76,11 @@ export default {
     commonClient: 'Commons',
     helpList: 'Support List',
     helpDetail: 'Support Detail',
+    // 交易对信息管理
+    pairInfo: 'Content Edit',
+    pairList: 'Pair List',
+    titleList: 'Pair Content',
+    pairDetail: 'Pair Detail',
     // 权限管理
     authorityManagement: 'Authority Management',
     roleSetting: 'Role Setting',
@@ -224,6 +229,7 @@ export default {
     cancel: 'Cancel',
     confirm: 'Confirm',
     discontinue: 'Stop',
+    create: 'Create',
     query: 'Query',
     areaCode: 'Area Code',
     countryAbbr: 'Abbr（US）',
@@ -568,7 +574,9 @@ export default {
     menu: 'Please select menus',
     full_name: 'Input name',
     resetPwd: 'Are you sure to reset password?',
-    password: '8-12 bits in length, including at least one capital letter, one lowercase letter, one digit and a special character'
+    password: '8-12 bits in length, including at least one capital letter, one lowercase letter, one digit and a special character',
+    date: 'Select date',
+    class: 'Select class'
   },
   map: {
     recharge: 'Recharge',

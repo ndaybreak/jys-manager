@@ -26,6 +26,16 @@ export function customerInfoCheck(query) {
     params: query
   })
 }
+// 交易客户备注查看
+export function customerInfoLog(id) {
+  return request({
+    url: '/admin/managementSystem/queryAuthLog',
+    method: 'post',
+    params: {
+      authApplicationId: id
+    }
+  })
+}
 
 // module--机构客户认证审核
 // 条件查询 （账号，状态，申请时间，按照时间排序）
@@ -50,6 +60,17 @@ export function companyInfoCheck(query) {
     url: '/admin/managementSystem/queryAuthEnterpriseDetail',
     method: 'post',
     params: query
+  })
+}
+
+// 交易客户备注查看
+export function companyInfoLog(id) {
+  return request({
+    url: '/admin/managementSystem/queryAuthEnterpriseLog',
+    method: 'post',
+    params: {
+      authEnterpriseId: id
+    }
   })
 }
 
